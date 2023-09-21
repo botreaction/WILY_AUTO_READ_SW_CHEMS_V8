@@ -46,12 +46,6 @@ const owner = JSON.parse(fs.readFileSync('./database/owner.json'))
 
 const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
 
-ZassTdr.ev.on('connection.update', (update) => {
-const {connection,lastDisconnect} = update
-if (connection === 'close') {lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? startZassTdr() : ''}
-else if(connection === 'open') {ZassTdr.sendMessage("6289688206739@s.whatsapp.net", {text:`${JSON.stringify(update, undefined, 2)}`})}
-console.log(update)})
-
 require('./XeonCheems8.js')
 nocache('../XeonCheems8.js', module => console.log(color('[ CHANGE ]', 'green'), color(`'${module}'`, 'green'), 'Updated'))
 require('./index.js')
@@ -227,8 +221,7 @@ ppgroup = await XeonBotInc.profilePictureUrl(anu.id, 'image')
 } catch (err) {
 ppgroup = 'https://i.ibb.co/RBx5SQC/avatar-group-large-v2.png?q=60'
 }
-
-if (anu.action == 'demote') {
+ if (anu.action == 'demote') {
 const xeonbuffer = await getBuffer(ppuser)
 const xeontime = moment.tz('Asia/Kolkata').format('HH:mm:ss')
 const xeondate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
@@ -348,7 +341,7 @@ content: Buffer.from(status, 'utf-8')
 return status
 }
 
-XeonBotInc.public = false
+XeonBotInc.public = true
 
 XeonBotInc.sendImage = async (jid, path, caption = '', quoted = '', options) => {
 let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
